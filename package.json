@@ -1,0 +1,24 @@
+{
+  "name": "challengereactcdn",
+  "version": "1.0.0",
+  "description": "Buenas! TIP:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "live-server ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Agrossio/ChallengeReactCDN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Agrossio/ChallengeReactCDN/issues"
+  },
+  "homepage": "https://github.com/Agrossio/ChallengeReactCDN#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
