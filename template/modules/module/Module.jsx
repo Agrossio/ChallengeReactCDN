@@ -17,11 +17,11 @@ const App = () => {
 
 const FirstComponent = () => {
     return (
-        <h2>React CDN </h2>
+        <h2>BurgerLast </h2>
     );
 }
 
 
-// Rendering
+// Rendering: Render <App /> in div with id modulo:
 const module = document.querySelector('#modulo');
 ReactDOM.render(<App />, module);
