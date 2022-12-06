@@ -7,44 +7,75 @@ const { useState, useEffect, createContext, useContext, useRef } = React;
 
 const App = () => {
 
+    const [categories, setCategories] = useState([]);
+    const [business, setBusiness] = useState([]);
+
+    useEffect(() => {
+
+
+        API._get("https://api.gesprender.com/products/burgerlast")
+            .then((res) => {
+                setCategories(res.categorys)
+                setBusiness(res.business)
+            })
+            .then(() => {
+                console.log("NAVBAR", categories)
+                console.log("BUSINESS", business)
+            })
+
+    }, [])
+
     return (
         <div id='body'>
-            <Header />
-            <Navbar />
-            <Content />
-            <ButtonOffcanvasEnd id='addExpense' title='Agregar nuevo gasto' button='Nuevo gasto personal' body={Header} callback={''} />
+            <Header business={business} />
+            <Navbar categories={categories} />
+            <Content categories={categories} />
             <Footer />
 
         </div>
     )
 }
 
-const Header = () => {
+const Header = ({ business = {} }) => {
+
+    const { address, logo, whatsapp, instagram } = business;
+    const businessName = business.business;
+
+    console.log("HEADER", business)
     return (
         <header>
-            <div id="logo-container"></div>
+            <div id="logo-container"></div> {/* nesting img tag does not get desired style: <img id="logo" src={logo} alt="logo" /> */}
 
             <div>
-                <div>BurgerLast</div>
-                <div>Juan del Campillo 1413</div>
+                <div>{businessName}</div>
+                <div>{address}</div>
                 <div id="socials">
-                    <a href="https://wa.me/5493424416404" target="_blank"><img src="https://precios.gesprender.com/assets/wsp.png" alt="whatsapp" /></a>
-                    <a href="https://instagram.com/gesprender" target="_blank"><img src="https://precios.gesprender.com/assets/instagram.png" alt="instagram" /></a>
+                    <a href={`https://wa.me/${whatsapp}`} target="_blank"><img src="https://precios.gesprender.com/assets/wsp.png" alt="whatsapp" /></a>
+                    <a href={`https://instagram.com/${instagram}`} target="_blank"><img src="https://precios.gesprender.com/assets/instagram.png" alt="instagram" /></a>
                 </div>
             </div>
         </header>
     );
 }
 
-export const Navbar = () => {
+export const Navbar = ({ categories }) => {
+
+    const Loading = () => categories.length === 0 ? <p>Loading...</p> : categories.map((category, index) => {
+        return <a key={index} href={`#ancla_${category}`}>{category}</a>
+    })
+
     return (
-        <nav className="navbar navbar-dark bg-dark mb-2 text-light">Navbar</nav>
+        <nav className="navbar sticky-top navbar-dark bg-dark mb-2 text-light">
+
+            <Loading />
+
+        </nav>
     )
 }
 
-export const Content = () => {
+export const Content = ({ categories }) => {
 
-    const productsArray = [
+    const productsArray1 = [
         {
             name: "burger1",
             price: "$100",
@@ -60,15 +91,74 @@ export const Content = () => {
             price: "$300",
             description: "Pan especial + Burguer + Chedar"
         },
+        {
+            name: "burger3",
+            price: "$300",
+            description: "Pan especial + Burguer + Chedar"
+        },
+        {
+            name: "burger3",
+            price: "$300",
+            description: "Pan especial + Burguer + Chedar"
+        },
+        {
+            name: "burger3",
+            price: "$300",
+            description: "Pan especial + Burguer + Chedar"
+        },
+        {
+            name: "burger3",
+            price: "$300",
+            description: "Pan especial + Burguer + Chedar"
+        },
+        {
+            name: "burger3",
+            price: "$300",
+            description: "Pan especial + Burguer + Chedar"
+        },
+        {
+            name: "burger3",
+            price: "$300",
+            description: "Pan especial + Burguer + Chedar"
+        },
     ]
 
+    const [products, setProducts] = useState({});
+    // const [categories, setCategories] = useState([]);
+    const [business, setBusiness] = useState({});
+
+    useEffect(() => {
+
+        const productsArray = []
+
+        API._get("https://api.gesprender.com/products/burgerlast")
+            .then(res => {
+                console.log("RES------", res)
+                //   setCategories(res.categorys)
+                //  console.log("CATEGORIES--------", categories)
+
+                for (let prop in res.products) {
+                    productsArray.push({ [prop]: res.products[prop] })
+                }
+                console.log("PRODUCTS_ARRAY", productsArray)
+                setProducts(productsArray)
+                setBusiness(res.business)
+            })
+            .then(() => {
+                console.log("PRODUCTS------", products)
+            })
+            .then(() => {
+                console.log("BUSINESS------", business)
+            })
+
+    }, [])
 
 
-    
+
     return (
         <div className="content">
 
-            <Accordion category={"🍔Burgers"} products={productsArray} />
+            <Accordion category={"🍔Burgers"} products={productsArray1} />
 
         </div>
     )
@@ -88,8 +178,11 @@ export const Accordion = ({ category, products }) => {
                     <div className="accordion-body" style={{ "width": "100%" }}>
                         <table className="table table-striped">
                             <tbody>
-                                {/* IMPLICIT RETURN: */}
-                                {products.map((product, index) => <TableRow key={index} product={product} />)}
+                                {
+                                    products.map((product, index) => {
+                                        return <TableRow key={index} product={product} />
+                                    })
+                                }
                             </tbody>
                         </table>
                     </div>
