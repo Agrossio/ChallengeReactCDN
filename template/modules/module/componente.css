@@ -1,9 +1,18 @@
-#body {
+/* #body {
     font-family: sans-serif;
     scroll-behavior: smooth;
     }
 
 #body::-webkit-scrollbar{
+    display: none;
+} */
+
+body {
+    font-family: sans-serif;
+    scroll-behavior: smooth;
+    }
+
+body::-webkit-scrollbar {
     display: none;
 }
 

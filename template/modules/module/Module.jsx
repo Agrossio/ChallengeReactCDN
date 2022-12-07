@@ -9,6 +9,7 @@ const App = () => {
 
     const [categories, setCategories] = useState([]);
     const [business, setBusiness] = useState([]);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
 
@@ -17,11 +18,12 @@ const App = () => {
             .then((res) => {
                 setCategories(res.categorys)
                 setBusiness(res.business)
+                setProducts(res.products)
             })
-            .then(() => {
-                console.log("NAVBAR", categories)
-                console.log("BUSINESS", business)
-            })
+        // .then(() => {
+        //     console.log("NAVBAR", categories)
+        //     console.log("BUSINESS", business)
+        // })
 
     }, [])
 
@@ -29,7 +31,7 @@ const App = () => {
         <div id='body'>
             <Header business={business} />
             <Navbar categories={categories} />
-            <Content categories={categories} />
+            <Content categories={categories} products={products} />
             <Footer />
 
         </div>
@@ -38,10 +40,11 @@ const App = () => {
 
 const Header = ({ business = {} }) => {
 
-    const { address, logo, whatsapp, instagram } = business;
+    const { address, logo, whatsapp, instagram } = business;    // would like to use "logo"
     const businessName = business.business;
 
-    console.log("HEADER", business)
+    // console.log("HEADER", business)
+
     return (
         <header>
             <div id="logo-container"></div> {/* nesting img tag does not get desired style: <img id="logo" src={logo} alt="logo" /> */}
@@ -60,22 +63,28 @@ const Header = ({ business = {} }) => {
 
 export const Navbar = ({ categories }) => {
 
-    const Loading = () => categories.length === 0 ? <p>Loading...</p> : categories.map((category, index) => {
-        return <a key={index} href={`#ancla_${category}`}>{category}</a>
-    })
+    // const Loading = () => categories.length === 0 ? <p>Loading...</p> : categories.map((category, index) => {
+    //     return <a key={index} href={`#ancla_${category}`}>{category}</a>
+    // })
 
     return (
         <nav className="navbar sticky-top navbar-dark bg-dark mb-2 text-light">
 
-            <Loading />
-
+            {
+                // <Loading />
+                categories.map((category, index) => {
+                    return <a key={index} href={`#ancla_${category}`}>{category}</a>
+                })
+            }
         </nav>
     )
 }
 
-export const Content = ({ categories }) => {
+export const Content = ({ categories, products }) => {
+    console.log("PRODUCTOS", products)
 
-    const productsArray1 = [
+
+    /* const productsArray = [
         {
             name: "burger1",
             price: "$100",
@@ -91,80 +100,31 @@ export const Content = ({ categories }) => {
             price: "$300",
             description: "Pan especial + Burguer + Chedar"
         },
-        {
-            name: "burger3",
-            price: "$300",
-            description: "Pan especial + Burguer + Chedar"
-        },
-        {
-            name: "burger3",
-            price: "$300",
-            description: "Pan especial + Burguer + Chedar"
-        },
-        {
-            name: "burger3",
-            price: "$300",
-            description: "Pan especial + Burguer + Chedar"
-        },
-        {
-            name: "burger3",
-            price: "$300",
-            description: "Pan especial + Burguer + Chedar"
-        },
-        {
-            name: "burger3",
-            price: "$300",
-            description: "Pan especial + Burguer + Chedar"
-        },
-        {
-            name: "burger3",
-            price: "$300",
-            description: "Pan especial + Burguer + Chedar"
-        },
-    ]
-
-    const [products, setProducts] = useState({});
-    // const [categories, setCategories] = useState([]);
-    const [business, setBusiness] = useState({});
-
-    useEffect(() => {
-
-        const productsArray = []
-
-        API._get("https://api.gesprender.com/products/burgerlast")
-            .then(res => {
-                console.log("RES------", res)
-                //   setCategories(res.categorys)
-                //  console.log("CATEGORIES--------", categories)
-
-                for (let prop in res.products) {
-                    productsArray.push({ [prop]: res.products[prop] })
-                }
-                console.log("PRODUCTS_ARRAY", productsArray)
-                setProducts(productsArray)
-                setBusiness(res.business)
-            })
-            .then(() => {
-                console.log("PRODUCTS------", products)
-            })
-            .then(() => {
-                console.log("BUSINESS------", business)
-            })
-
-    }, [])
-
-
+    ] */
 
     return (
         <div className="content">
 
-            <Accordion category={"🍔Burgers"} products={productsArray1} />
+            {
+                categories.map((category, index) => {
+                    return <Accordion key={index} category={category} products={products} />
+                })
+            }
 
         </div>
     )
 }
 
 export const Accordion = ({ category, products }) => {
+
+    const productsPerCategory = products[category]
+
+    console.log("PRODUCTOS POR CATEG", productsPerCategory)
+
+    const Loader = () => !productsPerCategory ? null : productsPerCategory.map((product, index) => {
+        return <TableRow key={index} product={product} />
+    })
+
     return (
         <div className="accordion" id={`_${category}`} >
             <div id={`ancla_${category}`}></div>
@@ -178,11 +138,7 @@ export const Accordion = ({ category, products }) => {
                     <div className="accordion-body" style={{ "width": "100%" }}>
                         <table className="table table-striped">
                             <tbody>
-                                {
-                                    products.map((product, index) => {
-                                        return <TableRow key={index} product={product} />
-                                    })
-                                }
+                                <Loader />
                             </tbody>
                         </table>
                     </div>
@@ -196,11 +152,11 @@ export const TableRow = ({ product }) => {
     return (
         <tr>
             <td className="col-name">
-                {product.name}
+                {product.product}
                 <p className="description">{product.description}</p>
             </td>
             <td className="col-price">
-                {product.price}
+                {`$${product.price_sale}`}
             </td>
         </tr>
     )
