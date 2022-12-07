@@ -72,6 +72,8 @@ nav::-webkit-scrollbar{
     width: 100%;
     }
 
+/* to change header/button background color: */
+
 .accordion-button:not(.collapsed){
     color: #fff;
     background: #4285F4;
