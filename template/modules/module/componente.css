@@ -1,5 +1,19 @@
-#body {
+/* #body {
     font-family: sans-serif;
+    scroll-behavior: smooth;
+    }
+
+#body::-webkit-scrollbar{
+    display: none;
+} */
+
+body {
+    font-family: sans-serif;
+    scroll-behavior: smooth;
+    }
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 header {
@@ -16,6 +30,13 @@ header {
 }
 
 #logo-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: url("https://gesprender.com/app/upload/BurgerLast/logo.webp") center center / cover;
+}
+
+#logo {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -89,6 +110,12 @@ nav::-webkit-scrollbar{
 
 a {
     text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
 }
 
 footer > p {
