@@ -72,8 +72,9 @@ nav::-webkit-scrollbar{
     width: 100%;
     }
 
-.accordion-header {
-    background-color: #0c63e4;
+.accordion-button:not(.collapsed){
+    color: #fff;
+    background: #4285F4;
 }
 
 .accordion-item {

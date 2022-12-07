@@ -130,10 +130,25 @@ export const Accordion = ({ category, products }) => {
             <div id={`ancla_${category}`}></div>
             <div className="accordion-item m-2">
                 <h2 className="accordion-header" id={`__${category}`}>
+                    {
+                        /* Button properties:
+                        1) data-bs-target is the id of the content which is toggled
+                        2) aria-expanded="true" is to set the accordion default to expanded
+                        3) aria-controls it's what is going to control (the same of the id of target)
+                        */
+                    }
                     <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={`#${category}`} aria-expanded="true" aria-controls={`${category}`} style={{ "width": "100%", "height": "70px", "fontSize": "21px", "fontWeight": "400" }}>
                         {category}
                     </button>
                 </h2>
+                {
+                    /* Div content properties:
+                        1) id has to be the same of the button target
+                        2) classname with "show" showing the content by default (expanded)
+                        3) aria-labelledby the id of the heading of this content
+                        4) data-bs-parent says which accordion is the parent of this content
+                    */
+                }
                 <div id={`${category}`} className="accordion-collapse collapse show" aria-labelledby={`__${category}`} data-bs-parent={`#_${category}`}>
                     <div className="accordion-body" style={{ "width": "100%" }}>
                         <table className="table table-striped">
