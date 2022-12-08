@@ -1,9 +1,10 @@
 // Import custom methods
 import { API } from "../../globals/CustomHooks";
-import { ButtonOffcanvasEnd, OfcanvasEnd } from "../../globals/CustomComponents";
 
 // React dependecies
 const { useState, useEffect, createContext, useContext, useRef } = React;
+
+// Site to Clone: https://precios.gesprender.com/burgerlast
 
 const App = () => {
 
@@ -12,7 +13,6 @@ const App = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-
 
         API._get("https://api.gesprender.com/products/burgerlast")
             .then((res) => {
@@ -24,7 +24,6 @@ const App = () => {
         //     console.log("NAVBAR", categories)
         //     console.log("BUSINESS", business)
         // })
-
     }, [])
 
     return (
@@ -38,16 +37,19 @@ const App = () => {
     )
 }
 
-const Header = ({ business = {} }) => {
+const Header = ({ business }) => {
 
     const { address, logo, whatsapp, instagram } = business;    // would like to use "logo"
     const businessName = business.business;
+    const logoUrl = {
+        background: `url('${logo}') center center / cover`,
+    }
 
     // console.log("HEADER", business)
 
     return (
         <header>
-            <div id="logo-container"></div> {/* nesting img tag does not get desired style: <img id="logo" src={logo} alt="logo" /> */}
+            <div id="logo-container" style={logoUrl}></div> {/* nesting img tag does not get desired style: <img id="logo" src={logo} alt="logo" /> */}
 
             <div>
                 <div>{businessName}</div>
@@ -68,7 +70,7 @@ export const Navbar = ({ categories }) => {
     // })
 
     return (
-        <nav className="navbar sticky-top navbar-dark bg-dark mb-2 text-light">
+        <nav className="navbar sticky-top navbar-dark bg-dark mb-2 text-light flex-center">
 
             {
                 // <Loading />
@@ -187,9 +189,6 @@ export const Footer = () => {
         </footer>
     )
 }
-
-
-
 
 // Rendering: Render <App /> in div with id modulo:
 const module = document.querySelector('#modulo');
